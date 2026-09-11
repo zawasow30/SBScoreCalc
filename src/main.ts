@@ -522,18 +522,18 @@ interface RadarAxis {
   angle: number; // in radians
 }
 
-// 5 vertices order:
+// 5 vertices order (clockwise):
 // Top: pitch (-pi/2)
-// Top-right: expression (-pi/2 + 2pi/5)
-// Bottom-right: rhythm (-pi/2 + 4pi/5)
-// Bottom-left: vibrato_longtone (-pi/2 + 6pi/5)
-// Top-left: stability (-pi/2 + 8pi/5)
+// Top-right: stability (-pi/2 + 2pi/5)
+// Bottom-right: expression (-pi/2 + 4pi/5)
+// Bottom-left: rhythm (-pi/2 + 6pi/5)
+// Top-left: vibrato_longtone (-pi/2 + 8pi/5)
 const RADAR_AXES: RadarAxis[] = [
   { key: 'pitch', label: '音程', angle: -Math.PI / 2 },
-  { key: 'expression', label: '表現力', angle: -Math.PI / 2 + (2 * Math.PI) / 5 },
-  { key: 'rhythm', label: 'リズム', angle: -Math.PI / 2 + (4 * Math.PI) / 5 },
-  { key: 'vibrato_longtone', label: 'VL', angle: -Math.PI / 2 + (6 * Math.PI) / 5 },
-  { key: 'stability', label: '安定性', angle: -Math.PI / 2 + (8 * Math.PI) / 5 },
+  { key: 'stability', label: '安定性', angle: -Math.PI / 2 + (2 * Math.PI) / 5 },
+  { key: 'expression', label: '表現力', angle: -Math.PI / 2 + (4 * Math.PI) / 5 },
+  { key: 'rhythm', label: 'リズム', angle: -Math.PI / 2 + (6 * Math.PI) / 5 },
+  { key: 'vibrato_longtone', label: 'VL', angle: -Math.PI / 2 + (8 * Math.PI) / 5 },
 ];
 
 const CHART_CX = 200;
