@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { calculateAiTotal } from './scoring.ts';
-import { parseScoreQR, formatScoreQR } from './qr.ts';
+import { parseScoreQR, formatScoreQR, extractScoreText, buildScoreUrl } from './qr.ts';
 
 test('Golden Test Case 1: QR sample case (clamped to 100.000)', () => {
   const input = {
@@ -67,4 +67,36 @@ test('QR Code Parsing & Formatting Round-trip', () => {
 
   const formatted = formatScoreQR(parsed);
   assert.strictEqual(formatted, qrStr);
+});
+
+test('Query String & URL Parsing Support (chart parameter)', () => {
+  const scoreStr = 'p93203s100000e99450r98780vl99000h67543ot1221';
+  
+  // 1. Full URL with chart parameter
+  const fullUrl = `https://zawasow30.github.io/SBScoreCalc/?chart=${scoreStr}`;
+  const parsedFromUrl = parseScoreQR(fullUrl);
+  assert.ok(parsedFromUrl !== null);
+  assert.strictEqual(parsedFromUrl.pitch, 93.203);
+  assert.strictEqual(parsedFromUrl.hibiki, 67543);
+  assert.strictEqual(parsedFromUrl.rawText, scoreStr);
+
+  // 2. Query string only (?chart=...)
+  const queryOnly = `?chart=${scoreStr}`;
+  const parsedFromQuery = parseScoreQR(queryOnly);
+  assert.ok(parsedFromQuery !== null);
+  assert.strictEqual(parsedFromQuery.expression, 99.45);
+
+  // 3. Fallback compatibility with ?score=...
+  const fallbackQuery = `?score=${scoreStr}`;
+  const parsedFallback = parseScoreQR(fallbackQuery);
+  assert.ok(parsedFallback !== null);
+  assert.strictEqual(parsedFallback.rhythm, 98.78);
+
+  // 4. URL Builder with chart query
+  const builtUrl = buildScoreUrl(scoreStr, 'https://example.com/app/');
+  assert.strictEqual(builtUrl, `https://example.com/app/?chart=${scoreStr}`);
+
+  // 5. extractScoreText helper
+  assert.strictEqual(extractScoreText(fullUrl), scoreStr);
+  assert.strictEqual(extractScoreText('invalid_text'), null);
 });

@@ -1,6 +1,6 @@
 import './style.css';
 import { calculateAiTotal, type ScoreParams, type ScoreResult } from './logic/scoring.ts';
-import { parseScoreQR, formatScoreQR } from './logic/qr.ts';
+import { parseScoreQR, formatScoreQR, buildScoreUrl } from './logic/qr.ts';
 import jsQR from 'jsqr';
 import QRCode from 'qrcode';
 
@@ -88,6 +88,7 @@ const btnManualQrApply = document.getElementById('btn-manual-qr-apply') as HTMLB
 const stepTabs = document.querySelectorAll<HTMLButtonElement>('.step-tab');
 const btnActionScan = document.getElementById('btn-action-scan') as HTMLButtonElement;
 const btnActionGenerate = document.getElementById('btn-action-generate') as HTMLButtonElement;
+const btnActionCopyUrl = document.getElementById('btn-action-copy-url') as HTMLButtonElement;
 const btnActionReset = document.getElementById('btn-action-reset') as HTMLButtonElement;
 
 // Score Displays
@@ -109,9 +110,12 @@ const radarSvg = document.getElementById('radar-svg') as unknown as SVGSVGElemen
 // Modal elements
 const modalQr = document.getElementById('modal-qr') as HTMLElement;
 const btnModalClose = document.getElementById('btn-modal-close') as HTMLButtonElement;
+const btnQrModeText = document.getElementById('btn-qr-mode-text') as HTMLButtonElement;
+const btnQrModeUrl = document.getElementById('btn-qr-mode-url') as HTMLButtonElement;
 const qrCanvas = document.getElementById('qr-output-canvas') as HTMLCanvasElement;
 const qrStringPreview = document.getElementById('qr-string-preview') as HTMLElement;
-const btnQrCopy = document.getElementById('btn-qr-copy') as HTMLButtonElement;
+const btnQrCopyText = document.getElementById('btn-qr-copy-text') as HTMLButtonElement;
+const btnQrCopyUrl = document.getElementById('btn-qr-copy-url') as HTMLButtonElement;
 const btnQrDownload = document.getElementById('btn-qr-download') as HTMLButtonElement;
 
 // Toast
@@ -134,6 +138,69 @@ function showToast(message: string, type: 'info' | 'error' | 'success' = 'info')
 }
 
 // ============================================================================
+// URL Query String Sync & Deep Linking
+// ============================================================================
+
+function syncUrlQuery() {
+  if (typeof window === 'undefined' || state.view !== 'calculator') return;
+  try {
+    const qrStr = formatScoreQR(state.params);
+    const url = new URL(window.location.href);
+    if (url.searchParams.get('chart') !== qrStr) {
+      url.searchParams.set('chart', qrStr);
+      // 旧パラメータ名があればクリーンアップ
+      url.searchParams.delete('score');
+      window.history.replaceState(null, '', url.toString());
+    }
+  } catch {
+    // Ignore URL manipulation errors
+  }
+}
+
+function clearUrlQuery() {
+  if (typeof window === 'undefined') return;
+  try {
+    const url = new URL(window.location.href);
+    if (url.searchParams.has('chart') || url.searchParams.has('score') || url.searchParams.has('q')) {
+      url.searchParams.delete('chart');
+      url.searchParams.delete('score');
+      url.searchParams.delete('q');
+      window.history.replaceState(null, '', url.pathname + (url.hash || ''));
+    }
+  } catch {
+    // Ignore URL manipulation errors
+  }
+}
+
+function checkUrlQueryParams(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    const search = window.location.search;
+    if (!search) return false;
+
+    const parsed = parseScoreQR(search);
+    if (parsed) {
+      state.params = {
+        pitch: parsed.pitch,
+        stability: parsed.stability,
+        expression: parsed.expression,
+        rhythm: parsed.rhythm,
+        vibrato_longtone: parsed.vibrato_longtone,
+        hibiki: parsed.hibiki,
+        overtone: parsed.overtone,
+      };
+      saveState(state.params);
+      switchView('calculator');
+      showToast('URLからパラメータを読み込みました', 'success');
+      return true;
+    }
+  } catch (err) {
+    console.warn('Failed to parse URL query params:', err);
+  }
+  return false;
+}
+
+// ============================================================================
 // View Routing
 // ============================================================================
 
@@ -147,6 +214,7 @@ function switchView(target: 'entry' | 'scanner' | 'calculator') {
     views.entry.classList.remove('hidden');
     btnHeaderHome.classList.add('hidden');
     stopCamera();
+    clearUrlQuery();
     checkSavedStateOnEntry();
   } else if (target === 'scanner') {
     views.scanner.classList.remove('hidden');
@@ -420,6 +488,9 @@ function updateCalculatorUI() {
 
   // 7. Persist
   saveState(state.params);
+
+  // 8. Sync URL Query String
+  syncUrlQuery();
 }
 
 function setParamValue(key: keyof ScoreParams, rawVal: number) {
@@ -631,12 +702,16 @@ function handlePointerDrag(e: PointerEvent, axisIdx: number) {
 // QR Generator Modal
 // ============================================================================
 
-async function openQrModal() {
-  const qrStr = formatScoreQR(state.params);
-  qrStringPreview.textContent = qrStr;
+let currentQrMode: 'text' | 'url' = 'text';
+
+async function updateQrModalDisplay() {
+  const scoreStr = formatScoreQR(state.params);
+  const targetStr = currentQrMode === 'url' ? buildScoreUrl(scoreStr) : scoreStr;
+
+  qrStringPreview.textContent = targetStr;
 
   try {
-    await QRCode.toCanvas(qrCanvas, qrStr, {
+    await QRCode.toCanvas(qrCanvas, targetStr, {
       width: 220,
       margin: 2,
       color: {
@@ -644,11 +719,17 @@ async function openQrModal() {
         light: '#ffffff',
       },
     });
-    modalQr.classList.remove('hidden');
   } catch (err) {
     console.error('QR generation error:', err);
     showToast('QRコードの生成に失敗しました', 'error');
   }
+}
+
+async function openQrModal() {
+  btnQrModeText.classList.toggle('active', currentQrMode === 'text');
+  btnQrModeUrl.classList.toggle('active', currentQrMode === 'url');
+  await updateQrModalDisplay();
+  modalQr.classList.remove('hidden');
 }
 
 function closeQrModal() {
@@ -739,6 +820,16 @@ function initEventListeners() {
   // Calculator Actions
   btnActionScan.addEventListener('click', () => switchView('scanner'));
   btnActionGenerate.addEventListener('click', openQrModal);
+  btnActionCopyUrl.addEventListener('click', async () => {
+    const scoreStr = formatScoreQR(state.params);
+    const fullUrl = buildScoreUrl(scoreStr);
+    try {
+      await navigator.clipboard.writeText(fullUrl);
+      showToast('共有URLをコピーしました', 'success');
+    } catch {
+      showToast('URLのコピーに失敗しました', 'error');
+    }
+  });
   btnActionReset.addEventListener('click', () => {
     state.params = { ...DEFAULT_PARAMS };
     updateCalculatorUI();
@@ -796,27 +887,53 @@ function initEventListeners() {
     });
   });
 
-
-
   // Modal Actions
   btnModalClose.addEventListener('click', closeQrModal);
   modalQr.addEventListener('click', (e) => {
     if (e.target === modalQr) closeQrModal();
   });
 
-  btnQrCopy.addEventListener('click', async () => {
-    const str = qrStringPreview.textContent || '';
+  btnQrModeText.addEventListener('click', async () => {
+    if (currentQrMode === 'text') return;
+    currentQrMode = 'text';
+    btnQrModeText.classList.add('active');
+    btnQrModeUrl.classList.remove('active');
+    await updateQrModalDisplay();
+  });
+
+  btnQrModeUrl.addEventListener('click', async () => {
+    if (currentQrMode === 'url') return;
+    currentQrMode = 'url';
+    btnQrModeUrl.classList.add('active');
+    btnQrModeText.classList.remove('active');
+    await updateQrModalDisplay();
+  });
+
+  btnQrCopyText.addEventListener('click', async () => {
+    const scoreStr = formatScoreQR(state.params);
     try {
-      await navigator.clipboard.writeText(str);
-      showToast('QRコード文字列をコピーしました', 'success');
+      await navigator.clipboard.writeText(scoreStr);
+      showToast('集約テキストをコピーしました', 'success');
+    } catch {
+      showToast('コピーに失敗しました', 'error');
+    }
+  });
+
+  btnQrCopyUrl.addEventListener('click', async () => {
+    const scoreStr = formatScoreQR(state.params);
+    const fullUrl = buildScoreUrl(scoreStr);
+    try {
+      await navigator.clipboard.writeText(fullUrl);
+      showToast('共有URLをコピーしました', 'success');
     } catch {
       showToast('コピーに失敗しました', 'error');
     }
   });
 
   btnQrDownload.addEventListener('click', () => {
+    const scoreStr = formatScoreQR(state.params);
     const link = document.createElement('a');
-    link.download = `aiscore_${formatScoreQR(state.params)}.png`;
+    link.download = currentQrMode === 'url' ? `aiscore_url_${scoreStr}.png` : `aiscore_${scoreStr}.png`;
     link.href = qrCanvas.toDataURL('image/png');
     link.click();
     showToast('QR画像をダウンロードしました', 'success');
@@ -839,7 +956,10 @@ function initEventListeners() {
 
 function init() {
   initEventListeners();
-  switchView('entry');
+  const loadedFromUrl = checkUrlQueryParams();
+  if (!loadedFromUrl) {
+    switchView('entry');
+  }
 }
 
 init();
