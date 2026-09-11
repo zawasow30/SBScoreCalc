@@ -1,26 +1,97 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <rect width="512" height="512" rx="100" fill="#09090b"/>
-  <rect x="24" y="24" width="464" height="464" rx="80" fill="#121215" stroke="rgba(255,255,255,0.08)" stroke-width="4"/>
-  
-  <!-- Pentagon background grid -->
-  <polygon points="256,90 410,202 351,384 161,384 102,202" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="3"/>
-  <polygon points="256,134 374,220 329,359 183,359 138,220" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
-  <polygon points="256,178 338,238 307,335 205,335 174,238" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
-  
-  <!-- Active radar polygon -->
-  <polygon points="256,112 396,210 335,370 175,365 116,215" fill="rgba(56,189,248,0.2)" stroke="#38bdf8" stroke-width="5" stroke-linejoin="round"/>
-  
-  <!-- Pentagon vertices -->
-  <circle cx="256" cy="112" r="7" fill="#38bdf8"/>
-  <circle cx="396" cy="210" r="7" fill="#38bdf8"/>
-  <circle cx="335" cy="370" r="7" fill="#38bdf8"/>
-  <circle cx="175" cy="365" r="7" fill="#38bdf8"/>
-  <circle cx="116" cy="215" r="7" fill="#38bdf8"/>
-  
-  <!-- Center dot -->
-  <circle cx="256" cy="256" r="4" fill="#71717a"/>
-  
-  <!-- Bottom Score indicator text badge -->
-  <rect x="156" y="416" width="200" height="48" rx="8" fill="#18181b" stroke="rgba(56,189,248,0.3)" stroke-width="2"/>
-  <text x="256" y="448" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" fill="#38bdf8" text-anchor="middle" letter-spacing="2">AI SCORE</text>
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0e1017"/>
+      <stop offset="60%" stop-color="#08090d"/>
+      <stop offset="100%" stop-color="#040406"/>
+    </linearGradient>
+
+    <!-- Bezel Gradient -->
+    <linearGradient id="bezel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255, 255, 255, 0.18)"/>
+      <stop offset="100%" stop-color="rgba(255, 255, 255, 0.04)"/>
+    </linearGradient>
+
+    <!-- Display Panel Gradient -->
+    <linearGradient id="panel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#12151e"/>
+      <stop offset="100%" stop-color="#090b10"/>
+    </linearGradient>
+
+    <!-- Subtle Glow Filter -->
+    <filter id="glow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="3.5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Subtle Mesh Pattern -->
+    <pattern id="mesh" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="0.75" fill="rgba(255, 255, 255, 0.02)" />
+    </pattern>
+  </defs>
+
+  <!-- iOS Squircle Shape (rx=108 for standard 512px) -->
+  <rect width="512" height="512" rx="108" fill="url(#bg)"/>
+  <rect x="2" y="2" width="508" height="508" rx="106" fill="none" stroke="url(#bezel)" stroke-width="2.5"/>
+
+  <!-- Inner Recessed Display Frame -->
+  <rect x="36" y="36" width="440" height="440" rx="36" fill="url(#panel)" stroke="rgba(255, 255, 255, 0.06)" stroke-width="1.5"/>
+  <rect x="36" y="36" width="440" height="440" rx="36" fill="url(#mesh)"/>
+
+  <!-- Center Divider Line -->
+  <line x1="64" y1="250" x2="448" y2="250" stroke="rgba(255, 255, 255, 0.06)" stroke-width="1.5" stroke-dasharray="6 6" />
+
+  <!-- Digits -->
+  <g id="digits">
+    <!-- Row 1: AI -->
+    <polygon points="170.68,82.00 226.88,82.00 212.70,100.00 181.70,100.00" fill="#38bdf8" opacity="1" filter="url(#glow)" />
+    <polygon points="242.30,98.90 238.04,147.50 220.83,138.50 223.19,111.50" fill="#38bdf8" opacity="1" filter="url(#glow)" />
+    <polygon points="237.61,152.50 233.36,201.10 216.46,188.50 218.82,161.50" fill="#38bdf8" opacity="1" filter="url(#glow)" />
+    <polygon points="172.95,200.00 203.95,200.00 214.98,218.00 158.78,218.00" fill="#1a202c" opacity="0.25"  />
+    <polygon points="147.61,152.50 164.82,161.50 162.46,188.50 143.36,201.10" fill="#38bdf8" opacity="1" filter="url(#glow)" />
+    <polygon points="152.30,98.90 169.19,111.50 166.83,138.50 148.04,147.50" fill="#38bdf8" opacity="1" filter="url(#glow)" />
+    <polygon points="164.73,150.00 176.31,141.00 210.91,141.00 220.93,150.00 209.34,159.00 174.74,159.00" fill="#38bdf8" opacity="1" filter="url(#glow)" />
+    <polygon points="290.68,82.00 326.88,82.00 312.70,100.00 301.70,100.00" fill="#38bdf8" opacity="1" filter="url(#glow)" />
+    <polygon points="292.95,200.00 303.95,200.00 314.98,218.00 278.78,218.00" fill="#38bdf8" opacity="1" filter="url(#glow)" />
+    <polygon points="297.35,109.70 315.35,109.70 312.04,147.50 302.83,150.00 294.04,147.50" fill="#38bdf8" opacity="1" filter="url(#glow)" />
+    <polygon points="302.83,150.00 311.61,152.50 308.30,190.30 290.30,190.30 293.61,152.50" fill="#38bdf8" opacity="1" filter="url(#glow)" />
+    <polygon points="342.30,98.90 338.04,147.50 320.83,138.50 323.19,111.50" fill="#1a202c" opacity="0.25"  />
+    <polygon points="337.61,152.50 333.36,201.10 316.46,188.50 318.82,161.50" fill="#1a202c" opacity="0.25"  />
+    <polygon points="267.61,152.50 284.82,161.50 282.46,188.50 263.36,201.10" fill="#1a202c" opacity="0.25"  />
+    <polygon points="272.30,98.90 289.19,111.50 286.83,138.50 268.04,147.50" fill="#1a202c" opacity="0.25"  />
+
+    <!-- Row 2: CALC -->
+    <polygon points="91.49,282.00 129.49,282.00 117.68,297.00 100.68,297.00" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="142.27,296.00 138.50,339.00 124.16,331.50 126.35,306.50" fill="#1a202c" opacity="0.25"  />
+    <polygon points="138.15,343.00 134.39,386.00 120.31,375.50 122.50,350.50" fill="#1a202c" opacity="0.25"  />
+    <polygon points="92.98,385.00 109.98,385.00 119.17,400.00 81.17,400.00" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="72.15,343.00 86.50,350.50 84.31,375.50 68.39,386.00" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="76.27,296.00 90.35,306.50 88.16,331.50 72.50,339.00" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="86.33,341.00 95.98,333.50 115.98,333.50 124.33,341.00 114.67,348.50 94.67,348.50" fill="#1a202c" opacity="0.25"  />
+    <polygon points="175.49,282.00 213.49,282.00 201.68,297.00 184.68,297.00" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="226.27,296.00 222.50,339.00 208.16,331.50 210.35,306.50" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="222.15,343.00 218.39,386.00 204.31,375.50 206.50,350.50" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="176.98,385.00 193.98,385.00 203.17,400.00 165.17,400.00" fill="#1a202c" opacity="0.25"  />
+    <polygon points="156.15,343.00 170.50,350.50 168.31,375.50 152.39,386.00" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="160.27,296.00 174.35,306.50 172.16,331.50 156.50,339.00" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="170.33,341.00 179.98,333.50 199.98,333.50 208.33,341.00 198.67,348.50 178.67,348.50" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="259.49,282.00 287.49,282.00 275.68,297.00 268.68,297.00" fill="#1a202c" opacity="0.25"  />
+    <polygon points="300.27,296.00 296.50,339.00 282.16,331.50 284.35,306.50" fill="#1a202c" opacity="0.25"  />
+    <polygon points="296.15,343.00 292.39,386.00 278.31,375.50 280.50,350.50" fill="#1a202c" opacity="0.25"  />
+    <polygon points="260.98,385.00 267.98,385.00 277.17,400.00 249.17,400.00" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="240.15,343.00 254.50,350.50 252.31,375.50 236.39,386.00" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="244.27,296.00 258.35,306.50 256.16,331.50 240.50,339.00" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="254.33,341.00 263.98,333.50 273.98,333.50 282.33,341.00 272.67,348.50 262.67,348.50" fill="#1a202c" opacity="0.25"  />
+    <polygon points="333.49,282.00 371.49,282.00 359.68,297.00 342.68,297.00" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="384.27,296.00 380.50,339.00 366.16,331.50 368.35,306.50" fill="#1a202c" opacity="0.25"  />
+    <polygon points="380.15,343.00 376.39,386.00 362.31,375.50 364.50,350.50" fill="#1a202c" opacity="0.25"  />
+    <polygon points="334.98,385.00 351.98,385.00 361.17,400.00 323.17,400.00" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="314.15,343.00 328.50,350.50 326.31,375.50 310.39,386.00" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="318.27,296.00 332.35,306.50 330.16,331.50 314.50,339.00" fill="#f59e0b" opacity="1" filter="url(#glow)" />
+    <polygon points="328.33,341.00 337.98,333.50 357.98,333.50 366.33,341.00 356.67,348.50 336.67,348.50" fill="#1a202c" opacity="0.25"  />
+  </g>
 </svg>
