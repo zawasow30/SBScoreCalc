@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="100" fill="#09090b"/>
+  <rect x="24" y="24" width="464" height="464" rx="80" fill="#121215" stroke="rgba(255,255,255,0.08)" stroke-width="4"/>
+  
+  <!-- Pentagon background grid -->
+  <polygon points="256,90 410,202 351,384 161,384 102,202" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="3"/>
+  <polygon points="256,134 374,220 329,359 183,359 138,220" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+  <polygon points="256,178 338,238 307,335 205,335 174,238" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+  
+  <!-- Active radar polygon -->
+  <polygon points="256,112 396,210 335,370 175,365 116,215" fill="rgba(56,189,248,0.2)" stroke="#38bdf8" stroke-width="5" stroke-linejoin="round"/>
+  
+  <!-- Pentagon vertices -->
+  <circle cx="256" cy="112" r="7" fill="#38bdf8"/>
+  <circle cx="396" cy="210" r="7" fill="#38bdf8"/>
+  <circle cx="335" cy="370" r="7" fill="#38bdf8"/>
+  <circle cx="175" cy="365" r="7" fill="#38bdf8"/>
+  <circle cx="116" cy="215" r="7" fill="#38bdf8"/>
+  
+  <!-- Center dot -->
+  <circle cx="256" cy="256" r="4" fill="#71717a"/>
+  
+  <!-- Bottom Score indicator text badge -->
+  <rect x="156" y="416" width="200" height="48" rx="8" fill="#18181b" stroke="rgba(56,189,248,0.3)" stroke-width="2"/>
+  <text x="256" y="448" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" fill="#38bdf8" text-anchor="middle" letter-spacing="2">AI SCORE</text>
+</svg>
