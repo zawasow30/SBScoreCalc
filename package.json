@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "node --test --import tsx src/logic/scoring.test.ts"
+    "test": "node --import tsx --test src/logic/scoring.test.ts",
+    "deploy": "npm run build && (cd dist && git init && git checkout -b gh-pages && git add . && git commit -m 'deploy' && git remote add origin git@github.com:zawasow30/SBScoreCalc.git && git push -f origin gh-pages)"
   },
   "dependencies": {
     "dseg": "^0.46.0",
