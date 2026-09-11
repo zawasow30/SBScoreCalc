@@ -103,12 +103,6 @@ const bonusHibiki = document.getElementById('bonus-hibiki') as HTMLElement;
 const bonusOvertone = document.getElementById('bonus-overtone') as HTMLElement;
 const scoreRawTotal = document.getElementById('score-raw-total') as HTMLElement;
 
-// Accordion
-const accordionExtended = document.getElementById('accordion-extended') as HTMLElement;
-const accordionToggle = document.getElementById('accordion-toggle') as HTMLElement;
-const summaryHbk = document.getElementById('summary-hbk') as HTMLElement;
-const summaryOt = document.getElementById('summary-ot') as HTMLElement;
-
 // Radar Chart
 const radarSvg = document.getElementById('radar-svg') as unknown as SVGSVGElement;
 
@@ -318,7 +312,6 @@ function updateCalculatorUI() {
   if (valHbk) valHbk.textContent = hbkVal.toString();
   if (sliderHbk && Number(sliderHbk.value) !== hbkVal) sliderHbk.value = hbkVal.toString();
   if (numHbk && Number(numHbk.value) !== hbkVal) numHbk.value = hbkVal.toString();
-  summaryHbk.textContent = hbkVal.toString();
 
   const valOt = document.getElementById('val-display-overtone');
   const sliderOt = document.getElementById('slider-overtone') as HTMLInputElement;
@@ -326,7 +319,6 @@ function updateCalculatorUI() {
   if (valOt) valOt.textContent = otVal.toString();
   if (sliderOt && Number(sliderOt.value) !== otVal) sliderOt.value = otVal.toString();
   if (numOt && Number(numOt.value) !== otVal) numOt.value = otVal.toString();
-  summaryOt.textContent = otVal.toString();
 
   // 3. Calculate Score
   const res: ScoreResult = calculateAiTotal(state.params);
@@ -804,16 +796,7 @@ function initEventListeners() {
     });
   });
 
-  // Accordion Toggle
-  accordionToggle.addEventListener('click', () => {
-    accordionExtended.classList.toggle('collapsed');
-    const isCollapsed = accordionExtended.classList.contains('collapsed');
-    const arrow = isCollapsed ? '▶' : '▼';
-    const textSpan = accordionToggle.firstElementChild as HTMLElement;
-    if (textSpan) {
-      textSpan.textContent = `${arrow} 詳細パラメータ (Hibiki / Overtone)`;
-    }
-  });
+
 
   // Modal Actions
   btnModalClose.addEventListener('click', closeQrModal);
