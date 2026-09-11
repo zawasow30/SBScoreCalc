@@ -618,7 +618,7 @@ function drawRadarChart(res: ScoreResult) {
     scoreText.setAttribute('x', lx.toFixed(1));
     scoreText.setAttribute('y', (ly + 3).toFixed(1));
     scoreText.setAttribute('class', 'radar-vertex-score');
-    scoreText.textContent = scoreVal.toFixed(1);
+    scoreText.textContent = scoreVal.toFixed(3);
     radarSvg.appendChild(scoreText);
 
     // 3行目: 音程基礎点または加点（0以上なら緑、0未満なら赤）
