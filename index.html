@@ -23,8 +23,8 @@
       rel="stylesheet"
     />
 
-    <script type="module" crossorigin src="./assets/index-C7Q8hoPD.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-DKmiIVRK.css">
+    <script type="module" crossorigin src="./assets/index-AhDoIfaq.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BK9l1Lnr.css">
   </head>
   <body>
     <div id="app">
@@ -246,7 +246,7 @@
                   <button class="step-tab" data-step="0.001">0.001</button>
                 </div>
               </div>
-              <div style="display: flex; gap: 6px;">
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
                 <button id="btn-action-scan" class="btn btn-secondary btn-sm" title="QRコードを読み込む">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="7" height="7"></rect>
@@ -263,6 +263,13 @@
                     <line x1="12" y1="2" x2="12" y2="15"></line>
                   </svg>
                   <span>QR生成</span>
+                </button>
+                <button id="btn-action-copy-url" class="btn btn-secondary btn-sm" title="現在の設定の共有URL（?chart=...）をコピー">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                  </svg>
+                  <span>URLコピー</span>
                 </button>
                 <button id="btn-action-reset" class="btn btn-secondary btn-sm" title="デフォルト値に戻す">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -444,19 +451,30 @@
             <button id="btn-modal-close" class="btn btn-ghost" title="閉じる">✕</button>
           </div>
           <div class="modal-body">
+            <div class="qr-mode-tabs">
+              <button id="btn-qr-mode-text" class="qr-mode-tab active" data-mode="text">集約テキスト</button>
+              <button id="btn-qr-mode-url" class="qr-mode-tab" data-mode="url">共有URL (?chart=...)</button>
+            </div>
             <div class="qr-canvas-wrapper">
               <canvas id="qr-output-canvas"></canvas>
             </div>
             <div id="qr-string-preview" class="qr-text-display"></div>
             <div class="modal-actions">
-              <button id="btn-qr-copy" class="btn btn-secondary" style="flex: 1;">
+              <button id="btn-qr-copy-text" class="btn btn-secondary" style="flex: 1;" title="集約テキストをクリップボードにコピー">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                 </svg>
-                <span>テキストをコピー</span>
+                <span>テキスト</span>
               </button>
-              <button id="btn-qr-download" class="btn btn-primary" style="flex: 1;">
+              <button id="btn-qr-copy-url" class="btn btn-secondary" style="flex: 1;" title="共有URL（?chart=...）をクリップボードにコピー">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+                <span>URL</span>
+              </button>
+              <button id="btn-qr-download" class="btn btn-primary" style="flex: 1.2;" title="表示中のQRコード画像をダウンロード">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                   <polyline points="7 10 12 15 17 10"></polyline>
