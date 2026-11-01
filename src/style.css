@@ -61,6 +61,10 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   min-height: 100dvh;
+}
+
+/* body にも overflow を付けると body がスクロールコンテナになり、sticky が効かなくなる */
+html {
   overflow-x: hidden;
 }
 
@@ -559,8 +563,11 @@ input {
 }
 
 @media (max-width: 990px) {
+  /* グリッド項目の sticky は自分の行の中でしか効かないため、1カラム時は flex にする */
   .view-calculator {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     padding: 16px;
     gap: 20px;
   }
@@ -828,12 +835,6 @@ input {
   top: 65px;
 }
 
-@media (max-width: 990px) {
-  .result-column {
-    position: static;
-  }
-}
-
 .score-display-card {
   background: var(--bg-panel);
   border: 1px solid var(--border-color);
@@ -872,6 +873,49 @@ input {
 
 .score-big-num.is-clamped {
   color: var(--color-gold-bright);
+}
+
+.score-delta {
+  font-size: 11px;
+  color: var(--color-success);
+  white-space: nowrap;
+}
+
+.score-delta.negative {
+  color: var(--color-danger);
+}
+
+/* 1カラム時: 調整中も見えるよう、スコアを小さくしてヘッダー直下に固定する */
+@media (max-width: 990px) {
+  .result-column {
+    display: contents;
+  }
+
+  .score-display-card {
+    position: sticky;
+    top: calc(56px + env(safe-area-inset-top, 0px));
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 60px; /* 差分の表示有無で高さが変わらないよう確保 */
+    margin: -16px -16px 0;
+    padding: 10px 16px;
+    border-width: 0 0 1px;
+    border-radius: 0;
+  }
+
+  .score-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    margin-bottom: 0;
+  }
+
+  .score-big-num {
+    font-size: 34px;
+  }
 }
 
 /* Breakdown summary */

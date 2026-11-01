@@ -93,6 +93,8 @@ const btnActionReset = document.getElementById('btn-action-reset') as HTMLButton
 
 // Score Displays
 const scoreTotal = document.getElementById('score-total') as HTMLElement;
+const scoreDelta = document.getElementById('score-delta') as HTMLElement;
+const scoreDeltaValue = document.getElementById('score-delta-value') as HTMLElement;
 const badgeClamped = document.getElementById('badge-clamped') as HTMLElement;
 const scoreBase = document.getElementById('score-base') as HTMLElement;
 const scoreBonusTotal = document.getElementById('score-bonus-total') as HTMLElement;
@@ -224,6 +226,7 @@ function switchView(target: 'entry' | 'scanner' | 'calculator') {
     views.calculator.classList.remove('hidden');
     btnHeaderHome.classList.remove('hidden');
     stopCamera();
+    resetScoreBaseline();
     updateCalculatorUI();
   }
 }
@@ -357,6 +360,20 @@ const CORE_KEYS: (keyof ScoreParams)[] = [
   'vibrato_longtone',
 ];
 
+// 「開始時から」の差分の基準。計算画面に入った時点と初期化時に更新する
+let scoreBaseline = 0;
+
+function resetScoreBaseline() {
+  scoreBaseline = calculateAiTotal(state.params).totalRaw;
+}
+
+function updateScoreDelta(totalRaw: number) {
+  const delta = Math.round((totalRaw - scoreBaseline) * 1000) / 1000;
+  scoreDelta.classList.toggle('hidden', delta === 0);
+  scoreDelta.classList.toggle('negative', delta < 0);
+  scoreDeltaValue.textContent = `${delta > 0 ? '+' : ''}${delta.toFixed(3)}`;
+}
+
 function updateCalculatorUI() {
   // 1. Update Core Fields
   for (const key of CORE_KEYS) {
@@ -400,6 +417,7 @@ function updateCalculatorUI() {
       scoreTotal.parentElement?.classList.remove('is-clamped');
     }
   }
+  updateScoreDelta(res.totalRaw);
 
   if (badgeClamped) {
     if (res.totalRaw >= 100.0) {
@@ -832,6 +850,7 @@ function initEventListeners() {
   });
   btnActionReset.addEventListener('click', () => {
     state.params = { ...DEFAULT_PARAMS };
+    resetScoreBaseline();
     updateCalculatorUI();
     showToast('パラメータを初期値にリセットしました', 'info');
   });
