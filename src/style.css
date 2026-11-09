@@ -714,44 +714,8 @@ input {
 .field-controls {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 12px;
-}
-
-/* Custom Range Slider */
-.slider-input {
-  flex: 1;
-  -webkit-appearance: none;
-  appearance: none;
-  height: 6px;
-  background: var(--bg-panel-active);
-  border-radius: 3px;
-  outline: none;
-  cursor: pointer;
-}
-
-.slider-input::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--color-brand);
-  box-shadow: 0 0 0 2px var(--bg-panel);
-  cursor: pointer;
-  transition: transform 0.1s ease;
-}
-
-.slider-input::-webkit-slider-thumb:hover {
-  transform: scale(1.15);
-}
-
-.slider-input::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--bg-panel);
-  border-radius: 50%;
-  background: var(--color-brand);
-  cursor: pointer;
 }
 
 .field-stepper {
@@ -1473,22 +1437,6 @@ input {
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
-  }
-
-  .slider-input {
-    flex: none;
-    height: 8px;
-    margin: 10px 0;
-  }
-
-  .slider-input::-webkit-slider-thumb {
-    width: 26px;
-    height: 26px;
-  }
-
-  .slider-input::-moz-range-thumb {
-    width: 24px;
-    height: 24px;
   }
 
   .field-stepper {

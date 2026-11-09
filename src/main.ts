@@ -379,13 +379,11 @@ function updateCalculatorUI() {
   for (const key of CORE_KEYS) {
     const val = state.params[key];
     const valText = document.getElementById(`val-display-${key}`);
-    const slider = document.getElementById(`slider-${key}`) as HTMLInputElement;
     const numInput = document.getElementById(`num-${key}`) as HTMLInputElement;
 
     if (valText) valText.textContent = val.toFixed(3);
     const bannerVal = document.getElementById(`banner-${key}`);
     if (bannerVal) bannerVal.textContent = val.toFixed(3);
-    if (slider && Number(slider.value) !== val) slider.value = val.toString();
     if (numInput && Number(numInput.value) !== val) numInput.value = val.toFixed(3);
   }
 
@@ -394,17 +392,13 @@ function updateCalculatorUI() {
   const otVal = Math.round(state.params.overtone);
 
   const valHbk = document.getElementById('val-display-hibiki');
-  const sliderHbk = document.getElementById('slider-hibiki') as HTMLInputElement;
   const numHbk = document.getElementById('num-hibiki') as HTMLInputElement;
   if (valHbk) valHbk.textContent = hbkVal.toString();
-  if (sliderHbk && Number(sliderHbk.value) !== hbkVal) sliderHbk.value = hbkVal.toString();
   if (numHbk && Number(numHbk.value) !== hbkVal) numHbk.value = hbkVal.toString();
 
   const valOt = document.getElementById('val-display-overtone');
-  const sliderOt = document.getElementById('slider-overtone') as HTMLInputElement;
   const numOt = document.getElementById('num-overtone') as HTMLInputElement;
   if (valOt) valOt.textContent = otVal.toString();
-  if (sliderOt && Number(sliderOt.value) !== otVal) sliderOt.value = otVal.toString();
   if (numOt && Number(numOt.value) !== otVal) numOt.value = otVal.toString();
 
   const bannerHbk = document.getElementById('banner-hibiki');
@@ -883,12 +877,7 @@ function initEventListeners() {
   ];
 
   allParamKeys.forEach((key) => {
-    const slider = document.getElementById(`slider-${key}`) as HTMLInputElement | null;
     const numInput = document.getElementById(`num-${key}`) as HTMLInputElement | null;
-
-    slider?.addEventListener('input', () => {
-      setParamValue(key, parseFloat(slider.value));
-    });
 
     numInput?.addEventListener('change', () => {
       setParamValue(key, parseFloat(numInput.value));
