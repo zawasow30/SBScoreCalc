@@ -61,6 +61,8 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   min-height: 100dvh;
+  /* ボタン連打時のダブルタップズームを防止（iOS Safari は user-scalable=no を無視するため） */
+  touch-action: manipulation;
 }
 
 /* body にも overflow を付けると body がスクロールコンテナになり、sticky が効かなくなる */
@@ -74,6 +76,7 @@ button {
   border: none;
   background: none;
   color: inherit;
+  touch-action: manipulation;
 }
 
 input {
@@ -1310,4 +1313,142 @@ input {
 
 .hidden {
   display: none !important;
+}
+
+/* ==========================================================================
+   Mobile: タップしやすいサイズ & 並び順（スコア → 入力 → チャート）
+   ========================================================================== */
+
+@media (max-width: 990px) {
+  /* result-column は display: contents なので子要素を直接並べ替えられる */
+  .score-display-card { order: 0; }
+  .calc-panel { order: 1; }
+  .radar-card { order: 2; }
+
+  .calc-panel {
+    padding: 14px;
+  }
+
+  /* ツールバー: 調整幅タブを横幅いっぱい、アクションを 4 等分 */
+  .calc-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .step-selector-group {
+    width: 100%;
+  }
+
+  .step-label {
+    white-space: nowrap;
+  }
+
+  .step-tabs {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 3px;
+  }
+
+  .step-tab {
+    min-height: 40px;
+    font-size: 15px;
+  }
+
+  .calc-toolbar > div:last-child {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px !important;
+  }
+
+  .btn,
+  .btn-sm {
+    min-height: 44px;
+    font-size: 13px;
+  }
+
+  .calc-toolbar .btn-sm {
+    flex-direction: column;
+    gap: 3px;
+    padding: 6px 4px;
+    font-size: 11px;
+  }
+
+  .calc-toolbar .btn-sm svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* 各パラメータ行: スライダーを 1 行、ステッパーを下段に大きく */
+  .params-list {
+    gap: 12px;
+  }
+
+  .calc-field-row {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .field-label {
+    font-size: 14px;
+  }
+
+  .field-value-text {
+    font-size: 18px;
+  }
+
+  .field-bonus-sub {
+    font-size: 12px;
+  }
+
+  .field-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .slider-input {
+    flex: none;
+    height: 8px;
+    margin: 10px 0;
+  }
+
+  .slider-input::-webkit-slider-thumb {
+    width: 26px;
+    height: 26px;
+  }
+
+  .slider-input::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+  }
+
+  .field-stepper {
+    gap: 8px;
+  }
+
+  .btn-step {
+    flex: 1;
+    height: 48px;
+    width: auto;
+    font-size: 22px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* 16px 未満だと iOS がフォーカス時にズームする */
+  .field-number-input {
+    flex: 1.4;
+    width: auto !important;
+    min-width: 0;
+    height: 48px;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .text-input {
+    font-size: 16px;
+    min-height: 44px;
+  }
 }
