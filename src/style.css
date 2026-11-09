@@ -842,73 +842,26 @@ input {
   background: var(--bg-panel);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 18px 20px;
-}
-
-.score-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.score-card-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.score-big-num {
-  font-family: var(--font-7seg);
-  font-style: italic;
-  font-size: 52px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--color-gold);
-  line-height: 1;
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-start;
-  margin-bottom: 0;
-}
-
-.score-big-num.is-clamped {
-  color: var(--color-gold-bright);
-}
-
-.score-delta {
-  font-size: 11px;
-  color: var(--color-success);
-  white-space: nowrap;
-}
-
-.score-delta.negative {
-  color: var(--color-danger);
-}
-
-/* 総合得点の下: 5値 + 響き・倍音 */
-.score-params {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: 12px;
-  padding-top: 10px;
-  border-top: 1px solid var(--border-color-subtle);
-}
-
-.score-params-row {
+  padding: 16px 20px;
   display: grid;
-  gap: 4px;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "core core"
+    "hbk  main"
+    "ot   main";
+  column-gap: 16px;
+  row-gap: 4px;
 }
 
+/* 1行目: 5値 */
 .score-params-core {
+  grid-area: core;
+  display: grid;
   grid-template-columns: repeat(5, 1fr);
-}
-
-.score-params-ext {
-  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  padding-bottom: 8px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--border-color-subtle);
 }
 
 .score-param {
@@ -919,12 +872,22 @@ input {
   line-height: 1.2;
 }
 
-.score-params-ext .score-param {
-  flex-direction: row;
+/* 5値の色分け: 音程=緑 / 安定性=青 / 表現力=紫 / リズム=黄 / VL=ピンク */
+#banner-pitch { color: #4ade80; }
+#banner-stability { color: #60a5fa; }
+#banner-expression { color: #c084fc; }
+#banner-rhythm { color: #facc15; }
+#banner-vibrato_longtone { color: #f472b6; }
+
+/* 2・3行目左: 響き / 倍音 */
+.score-param-ext {
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
-  align-items: baseline;
-  gap: 6px;
 }
+
+.score-param-hibiki { grid-area: hbk; }
+.score-param-overtone { grid-area: ot; }
 
 .score-param-label {
   font-size: 10px;
@@ -942,7 +905,60 @@ input {
   white-space: nowrap;
 }
 
-/* 1カラム時: 調整中も見えるよう、スコアを小さくしてヘッダー直下に固定する */
+/* 2・3行目右: 総合得点 */
+.score-main {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 0;
+}
+
+.score-card-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.score-card-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.score-big-num {
+  font-family: var(--font-7seg);
+  font-style: italic;
+  font-size: 56px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-gold);
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+}
+
+.score-big-num.is-clamped {
+  color: var(--color-gold-bright);
+}
+
+.score-delta {
+  font-size: 11px;
+  color: var(--color-success);
+  white-space: nowrap;
+}
+
+.score-delta.negative {
+  color: var(--color-danger);
+}
+
+/* 1カラム時: 調整中も見えるよう、ヘッダー直下に固定する */
 @media (max-width: 990px) {
   .result-column {
     display: contents;
@@ -953,28 +969,21 @@ input {
     top: calc(56px + env(safe-area-inset-top, 0px));
     z-index: 30;
     margin: -16px -16px 0;
-    padding: 10px 16px;
+    padding: 8px 16px 10px;
     border-width: 0 0 1px;
     border-radius: 0;
   }
 
-  .score-main {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    min-height: 40px; /* 差分の表示有無で高さが変わらないよう確保 */
+  .score-params-core {
+    padding-bottom: 6px;
   }
 
-  .score-card-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
-    margin-bottom: 0;
+  .score-param-val {
+    font-size: 14px;
   }
 
   .score-big-num {
-    font-size: 34px;
+    font-size: 46px;
   }
 }
 
@@ -1507,17 +1516,5 @@ input {
   .text-input {
     font-size: 16px;
     min-height: 44px;
-  }
-}
-
-@media (max-width: 990px) {
-  .score-params {
-    margin-top: 8px;
-    padding-top: 6px;
-    gap: 4px;
-  }
-
-  .score-param-val {
-    font-size: 14px;
   }
 }

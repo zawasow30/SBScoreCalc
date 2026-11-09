@@ -183,28 +183,24 @@
           <!-- Top / Left: Results & Radar (総合得点 & レーダーチャート) -->
           <div class="result-column">
             <!-- Score Card (点数だけの表示) -->
+            <!-- 1行目: 5値 / 2行目左: 響き / 3行目左: 倍音 / 2-3行目右: 総合得点 -->
             <div class="score-display-card">
+              <div class="score-params-core">
+                <div class="score-param"><span class="score-param-label">音程</span><span class="score-param-val num" id="banner-pitch">94.000</span></div>
+                <div class="score-param"><span class="score-param-label">安定性</span><span class="score-param-val num" id="banner-stability">99.000</span></div>
+                <div class="score-param"><span class="score-param-label">表現力</span><span class="score-param-val num" id="banner-expression">99.000</span></div>
+                <div class="score-param"><span class="score-param-label">リズム</span><span class="score-param-val num" id="banner-rhythm">99.000</span></div>
+                <div class="score-param"><span class="score-param-label">VL</span><span class="score-param-val num" id="banner-vibrato_longtone">99.000</span></div>
+              </div>
+              <div class="score-param score-param-ext score-param-hibiki"><span class="score-param-label">Hibiki</span><span class="score-param-val num" id="banner-hibiki">60000</span></div>
+              <div class="score-param score-param-ext score-param-overtone"><span class="score-param-label">Overtone</span><span class="score-param-val num" id="banner-overtone">1200</span></div>
               <div class="score-main">
                 <div class="score-card-header">
-                  <span class="score-card-title">Ai 推定総合得点</span>
                   <span id="score-delta" class="score-delta hidden">開始時から <span id="score-delta-value" class="num"></span></span>
+                  <span class="score-card-title">Ai 推定総合得点</span>
                 </div>
                 <div class="score-big-num">
                   <span id="score-total" class="num">99.994</span>
-                </div>
-              </div>
-              <!-- 2行目: 5値 / 3行目: 響き・倍音 -->
-              <div class="score-params">
-                <div class="score-params-row score-params-core">
-                  <div class="score-param"><span class="score-param-label">音程</span><span class="score-param-val num" id="banner-pitch">94.000</span></div>
-                  <div class="score-param"><span class="score-param-label">安定性</span><span class="score-param-val num" id="banner-stability">99.000</span></div>
-                  <div class="score-param"><span class="score-param-label">表現力</span><span class="score-param-val num" id="banner-expression">99.000</span></div>
-                  <div class="score-param"><span class="score-param-label">リズム</span><span class="score-param-val num" id="banner-rhythm">99.000</span></div>
-                  <div class="score-param"><span class="score-param-label">VL</span><span class="score-param-val num" id="banner-vibrato_longtone">99.000</span></div>
-                </div>
-                <div class="score-params-row score-params-ext">
-                  <div class="score-param"><span class="score-param-label">Hbk</span><span class="score-param-val num" id="banner-hibiki">60000</span></div>
-                  <div class="score-param"><span class="score-param-label">Ot</span><span class="score-param-val num" id="banner-overtone">1200</span></div>
                 </div>
               </div>
             </div>
