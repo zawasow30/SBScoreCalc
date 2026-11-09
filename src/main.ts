@@ -383,6 +383,8 @@ function updateCalculatorUI() {
     const numInput = document.getElementById(`num-${key}`) as HTMLInputElement;
 
     if (valText) valText.textContent = val.toFixed(3);
+    const bannerVal = document.getElementById(`banner-${key}`);
+    if (bannerVal) bannerVal.textContent = val.toFixed(3);
     if (slider && Number(slider.value) !== val) slider.value = val.toString();
     if (numInput && Number(numInput.value) !== val) numInput.value = val.toFixed(3);
   }
@@ -404,6 +406,11 @@ function updateCalculatorUI() {
   if (valOt) valOt.textContent = otVal.toString();
   if (sliderOt && Number(sliderOt.value) !== otVal) sliderOt.value = otVal.toString();
   if (numOt && Number(numOt.value) !== otVal) numOt.value = otVal.toString();
+
+  const bannerHbk = document.getElementById('banner-hibiki');
+  const bannerOt = document.getElementById('banner-overtone');
+  if (bannerHbk) bannerHbk.textContent = hbkVal.toString();
+  if (bannerOt) bannerOt.textContent = otVal.toString();
 
   // 3. Calculate Score
   const res: ScoreResult = calculateAiTotal(state.params);

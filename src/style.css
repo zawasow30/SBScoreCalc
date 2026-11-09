@@ -888,6 +888,60 @@ input {
   color: var(--color-danger);
 }
 
+/* 総合得点の下: 5値 + 響き・倍音 */
+.score-params {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color-subtle);
+}
+
+.score-params-row {
+  display: grid;
+  gap: 4px;
+}
+
+.score-params-core {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.score-params-ext {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.score-param {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.score-params-ext .score-param {
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.score-param-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.score-param-val {
+  font-family: var(--font-7seg);
+  font-style: italic;
+  letter-spacing: 0.03em;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-brand);
+  white-space: nowrap;
+}
+
 /* 1カラム時: 調整中も見えるよう、スコアを小さくしてヘッダー直下に固定する */
 @media (max-width: 990px) {
   .result-column {
@@ -898,15 +952,18 @@ input {
     position: sticky;
     top: calc(56px + env(safe-area-inset-top, 0px));
     z-index: 30;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    min-height: 60px; /* 差分の表示有無で高さが変わらないよう確保 */
     margin: -16px -16px 0;
     padding: 10px 16px;
     border-width: 0 0 1px;
     border-radius: 0;
+  }
+
+  .score-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 40px; /* 差分の表示有無で高さが変わらないよう確保 */
   }
 
   .score-card-header {
@@ -1450,5 +1507,17 @@ input {
   .text-input {
     font-size: 16px;
     min-height: 44px;
+  }
+}
+
+@media (max-width: 990px) {
+  .score-params {
+    margin-top: 8px;
+    padding-top: 6px;
+    gap: 4px;
+  }
+
+  .score-param-val {
+    font-size: 14px;
   }
 }
