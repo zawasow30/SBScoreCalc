@@ -378,28 +378,22 @@ function updateCalculatorUI() {
   // 1. Update Core Fields
   for (const key of CORE_KEYS) {
     const val = state.params[key];
-    const valText = document.getElementById(`val-display-${key}`);
     const numInput = document.getElementById(`num-${key}`) as HTMLInputElement;
 
-    if (valText) valText.textContent = val.toFixed(3);
     const bannerVal = document.getElementById(`banner-${key}`);
     if (bannerVal) bannerVal.textContent = val.toFixed(3);
-    if (numInput && Number(numInput.value) !== val) numInput.value = val.toFixed(3);
+    if (numInput && document.activeElement !== numInput) numInput.value = val.toFixed(3);
   }
 
   // 2. Update Extended Fields (Hibiki / Overtone)
   const hbkVal = Math.round(state.params.hibiki);
   const otVal = Math.round(state.params.overtone);
 
-  const valHbk = document.getElementById('val-display-hibiki');
   const numHbk = document.getElementById('num-hibiki') as HTMLInputElement;
-  if (valHbk) valHbk.textContent = hbkVal.toString();
-  if (numHbk && Number(numHbk.value) !== hbkVal) numHbk.value = hbkVal.toString();
+  if (numHbk && document.activeElement !== numHbk) numHbk.value = hbkVal.toString();
 
-  const valOt = document.getElementById('val-display-overtone');
   const numOt = document.getElementById('num-overtone') as HTMLInputElement;
-  if (valOt) valOt.textContent = otVal.toString();
-  if (numOt && Number(numOt.value) !== otVal) numOt.value = otVal.toString();
+  if (numOt && document.activeElement !== numOt) numOt.value = otVal.toString();
 
   const bannerHbk = document.getElementById('banner-hibiki');
   const bannerOt = document.getElementById('banner-overtone');
@@ -525,10 +519,25 @@ function setParamValue(key: keyof ScoreParams, rawVal: number) {
   updateCalculatorUI();
 }
 
-function stepParam(key: keyof ScoreParams, dir: number) {
-  const step = key === 'hibiki' || key === 'overtone' ? Math.max(1, Math.round(state.step * 100)) : state.step;
+// 調整幅（基準）に対する 1 回あたりの増減量。響き・倍音は整数スケールなので 100 倍する
+function stepAmount(key: keyof ScoreParams, mult: number): number {
+  const base = key === 'hibiki' || key === 'overtone' ? Math.max(1, Math.round(state.step * 100)) : state.step;
+  return Math.round(base * mult * 1000) / 1000;
+}
+
+function stepParam(key: keyof ScoreParams, dir: number, mult = 1) {
   const current = state.params[key];
-  setParamValue(key, current + dir * step);
+  setParamValue(key, current + dir * stepAmount(key, mult));
+}
+
+// ±ボタンに現在の増減量を表示する
+function updateStepperLabels() {
+  document.querySelectorAll<HTMLButtonElement>('.btn-step').forEach((btn) => {
+    const key = btn.dataset.stepperTarget as keyof ScoreParams;
+    const mult = parseInt(btn.dataset.mult || '1', 10);
+    const amountEl = btn.querySelector('.btn-step-amount');
+    if (key && amountEl) amountEl.textContent = String(stepAmount(key, mult));
+  });
 }
 
 // ============================================================================
@@ -862,10 +871,11 @@ function initEventListeners() {
       stepTabs.forEach((t) => t.classList.remove('active'));
       tab.classList.add('active');
       state.step = parseFloat(tab.dataset.step || '0.1');
+      updateStepperLabels();
     });
   });
 
-  // Sliders, Steppers, Number inputs
+  // Number inputs
   const allParamKeys: (keyof ScoreParams)[] = [
     'pitch',
     'stability',
@@ -889,15 +899,20 @@ function initEventListeners() {
         numInput.blur();
       }
     });
+
+    // 入力中は書き換えないので、フォーカスが外れたら表示形式（94.000 など）に戻す
+    numInput?.addEventListener('blur', () => updateCalculatorUI());
   });
 
   // Stepper buttons
+  updateStepperLabels();
   document.querySelectorAll<HTMLButtonElement>('.btn-step').forEach((btn) => {
     btn.addEventListener('click', () => {
       const target = btn.dataset.stepperTarget as keyof ScoreParams;
       const dir = parseInt(btn.dataset.dir || '1', 10);
+      const mult = parseInt(btn.dataset.mult || '1', 10);
       if (target) {
-        stepParam(target, dir);
+        stepParam(target, dir, mult);
       }
     });
   });

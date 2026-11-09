@@ -295,153 +295,84 @@
               </div>
             </div>
 
-            <!-- 5 Core Parameters -->
+            <!-- 各項目: 1行目 = ±基準×10 / 見出し, 2行目 = ±基準 / 値・得点寄与 -->
             <div class="params-list">
-              <!-- Pitch -->
               <div class="calc-field-row" data-param="pitch">
-                <div class="field-header">
-                  <span class="field-label">
-                    <span>音程</span>
-                    <span class="field-key">pitch</span>
-                  </span>
-                  <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end;">
-                    <span class="field-value-text num" id="val-display-pitch">94.000</span>
-                    <span class="field-bonus-sub num positive" id="sub-bonus-pitch">86.280</span>
-                  </div>
+                <button class="btn-step btn-step-x10" data-stepper-target="pitch" data-dir="-1" data-mult="10"><span class="btn-step-sign">−</span><span class="btn-step-amount num"></span></button>
+                <span class="field-label"><span>音程</span><span class="field-key">pitch</span></span>
+                <button class="btn-step btn-step-x10" data-stepper-target="pitch" data-dir="1" data-mult="10"><span class="btn-step-sign">＋</span><span class="btn-step-amount num"></span></button>
+                <button class="btn-step btn-step-x1" data-stepper-target="pitch" data-dir="-1" data-mult="1"><span class="btn-step-sign">−</span><span class="btn-step-amount num"></span></button>
+                <div class="field-value-cell">
+                  <input type="number" class="field-number-input num" id="num-pitch" min="0" max="100" step="0.001" value="94.000" inputmode="decimal" />
+                  <span class="field-bonus-sub num positive" id="sub-bonus-pitch"></span>
                 </div>
-                <div class="field-controls">
-                  <div class="field-stepper">
-                    <button class="btn-step" data-stepper-target="pitch" data-dir="-1">−</button>
-                    <input type="number" class="field-number-input num" id="num-pitch" min="0" max="100" step="0.001" value="94" />
-                    <button class="btn-step" data-stepper-target="pitch" data-dir="1">＋</button>
-                  </div>
-                </div>
+                <button class="btn-step btn-step-x1" data-stepper-target="pitch" data-dir="1" data-mult="1"><span class="btn-step-sign">＋</span><span class="btn-step-amount num"></span></button>
               </div>
-
-              <!-- Stability -->
               <div class="calc-field-row" data-param="stability">
-                <div class="field-header">
-                  <span class="field-label">
-                    <span>安定性</span>
-                    <span class="field-key">stability</span>
-                  </span>
-                  <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end;">
-                    <span class="field-value-text num" id="val-display-stability">99.000</span>
-                    <span class="field-bonus-sub num positive" id="sub-bonus-stability">+2.581</span>
-                  </div>
+                <button class="btn-step btn-step-x10" data-stepper-target="stability" data-dir="-1" data-mult="10"><span class="btn-step-sign">−</span><span class="btn-step-amount num"></span></button>
+                <span class="field-label"><span>安定性</span><span class="field-key">stability</span></span>
+                <button class="btn-step btn-step-x10" data-stepper-target="stability" data-dir="1" data-mult="10"><span class="btn-step-sign">＋</span><span class="btn-step-amount num"></span></button>
+                <button class="btn-step btn-step-x1" data-stepper-target="stability" data-dir="-1" data-mult="1"><span class="btn-step-sign">−</span><span class="btn-step-amount num"></span></button>
+                <div class="field-value-cell">
+                  <input type="number" class="field-number-input num" id="num-stability" min="0" max="100" step="0.001" value="99.000" inputmode="decimal" />
+                  <span class="field-bonus-sub num positive" id="sub-bonus-stability"></span>
                 </div>
-                <div class="field-controls">
-                  <div class="field-stepper">
-                    <button class="btn-step" data-stepper-target="stability" data-dir="-1">−</button>
-                    <input type="number" class="field-number-input num" id="num-stability" min="0" max="100" step="0.001" value="99" />
-                    <button class="btn-step" data-stepper-target="stability" data-dir="1">＋</button>
-                  </div>
-                </div>
+                <button class="btn-step btn-step-x1" data-stepper-target="stability" data-dir="1" data-mult="1"><span class="btn-step-sign">＋</span><span class="btn-step-amount num"></span></button>
               </div>
-
-              <!-- Expression -->
               <div class="calc-field-row" data-param="expression">
-                <div class="field-header">
-                  <span class="field-label">
-                    <span>表現力</span>
-                    <span class="field-key">expression</span>
-                  </span>
-                  <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end;">
-                    <span class="field-value-text num" id="val-display-expression">99.000</span>
-                    <span class="field-bonus-sub num positive" id="sub-bonus-expression">+5.990</span>
-                  </div>
+                <button class="btn-step btn-step-x10" data-stepper-target="expression" data-dir="-1" data-mult="10"><span class="btn-step-sign">−</span><span class="btn-step-amount num"></span></button>
+                <span class="field-label"><span>表現力</span><span class="field-key">expression</span></span>
+                <button class="btn-step btn-step-x10" data-stepper-target="expression" data-dir="1" data-mult="10"><span class="btn-step-sign">＋</span><span class="btn-step-amount num"></span></button>
+                <button class="btn-step btn-step-x1" data-stepper-target="expression" data-dir="-1" data-mult="1"><span class="btn-step-sign">−</span><span class="btn-step-amount num"></span></button>
+                <div class="field-value-cell">
+                  <input type="number" class="field-number-input num" id="num-expression" min="0" max="100" step="0.001" value="99.000" inputmode="decimal" />
+                  <span class="field-bonus-sub num positive" id="sub-bonus-expression"></span>
                 </div>
-                <div class="field-controls">
-                  <div class="field-stepper">
-                    <button class="btn-step" data-stepper-target="expression" data-dir="-1">−</button>
-                    <input type="number" class="field-number-input num" id="num-expression" min="0" max="100" step="0.001" value="99" />
-                    <button class="btn-step" data-stepper-target="expression" data-dir="1">＋</button>
-                  </div>
-                </div>
+                <button class="btn-step btn-step-x1" data-stepper-target="expression" data-dir="1" data-mult="1"><span class="btn-step-sign">＋</span><span class="btn-step-amount num"></span></button>
               </div>
-
-              <!-- Rhythm -->
               <div class="calc-field-row" data-param="rhythm">
-                <div class="field-header">
-                  <span class="field-label">
-                    <span>リズム</span>
-                    <span class="field-key">rhythm</span>
-                  </span>
-                  <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end;">
-                    <span class="field-value-text num" id="val-display-rhythm">99.000</span>
-                    <span class="field-bonus-sub num positive" id="sub-bonus-rhythm">+2.527</span>
-                  </div>
+                <button class="btn-step btn-step-x10" data-stepper-target="rhythm" data-dir="-1" data-mult="10"><span class="btn-step-sign">−</span><span class="btn-step-amount num"></span></button>
+                <span class="field-label"><span>リズム</span><span class="field-key">rhythm</span></span>
+                <button class="btn-step btn-step-x10" data-stepper-target="rhythm" data-dir="1" data-mult="10"><span class="btn-step-sign">＋</span><span class="btn-step-amount num"></span></button>
+                <button class="btn-step btn-step-x1" data-stepper-target="rhythm" data-dir="-1" data-mult="1"><span class="btn-step-sign">−</span><span class="btn-step-amount num"></span></button>
+                <div class="field-value-cell">
+                  <input type="number" class="field-number-input num" id="num-rhythm" min="0" max="100" step="0.001" value="99.000" inputmode="decimal" />
+                  <span class="field-bonus-sub num positive" id="sub-bonus-rhythm"></span>
                 </div>
-                <div class="field-controls">
-                  <div class="field-stepper">
-                    <button class="btn-step" data-stepper-target="rhythm" data-dir="-1">−</button>
-                    <input type="number" class="field-number-input num" id="num-rhythm" min="0" max="100" step="0.001" value="99" />
-                    <button class="btn-step" data-stepper-target="rhythm" data-dir="1">＋</button>
-                  </div>
-                </div>
+                <button class="btn-step btn-step-x1" data-stepper-target="rhythm" data-dir="1" data-mult="1"><span class="btn-step-sign">＋</span><span class="btn-step-amount num"></span></button>
               </div>
-
-              <!-- Vibrato & Longtone -->
               <div class="calc-field-row" data-param="vibrato_longtone">
-                <div class="field-header">
-                  <span class="field-label">
-                    <span>V&L (VL)</span>
-                    <span class="field-key">vl</span>
-                  </span>
-                  <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end;">
-                    <span class="field-value-text num" id="val-display-vibrato_longtone">99.000</span>
-                    <span class="field-bonus-sub num positive" id="sub-bonus-vibrato_longtone">+2.492</span>
-                  </div>
+                <button class="btn-step btn-step-x10" data-stepper-target="vibrato_longtone" data-dir="-1" data-mult="10"><span class="btn-step-sign">−</span><span class="btn-step-amount num"></span></button>
+                <span class="field-label"><span>V&amp;L (VL)</span><span class="field-key">vl</span></span>
+                <button class="btn-step btn-step-x10" data-stepper-target="vibrato_longtone" data-dir="1" data-mult="10"><span class="btn-step-sign">＋</span><span class="btn-step-amount num"></span></button>
+                <button class="btn-step btn-step-x1" data-stepper-target="vibrato_longtone" data-dir="-1" data-mult="1"><span class="btn-step-sign">−</span><span class="btn-step-amount num"></span></button>
+                <div class="field-value-cell">
+                  <input type="number" class="field-number-input num" id="num-vibrato_longtone" min="0" max="100" step="0.001" value="99.000" inputmode="decimal" />
+                  <span class="field-bonus-sub num positive" id="sub-bonus-vibrato_longtone"></span>
                 </div>
-                <div class="field-controls">
-                  <div class="field-stepper">
-                    <button class="btn-step" data-stepper-target="vibrato_longtone" data-dir="-1">−</button>
-                    <input type="number" class="field-number-input num" id="num-vibrato_longtone" min="0" max="100" step="0.001" value="99" />
-                    <button class="btn-step" data-stepper-target="vibrato_longtone" data-dir="1">＋</button>
-                  </div>
-                </div>
+                <button class="btn-step btn-step-x1" data-stepper-target="vibrato_longtone" data-dir="1" data-mult="1"><span class="btn-step-sign">＋</span><span class="btn-step-amount num"></span></button>
               </div>
-
-              <!-- Hibiki -->
               <div class="calc-field-row" data-param="hibiki">
-                <div class="field-header">
-                  <span class="field-label">
-                    <span>Hibiki (響き)</span>
-                    <span class="field-key">h</span>
-                  </span>
-                  <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end;">
-                    <span class="field-value-text num" id="val-display-hibiki">60000</span>
-                    <span class="field-bonus-sub num positive" id="sub-bonus-hibiki">+0.062</span>
-                  </div>
+                <button class="btn-step btn-step-x10" data-stepper-target="hibiki" data-dir="-1" data-mult="10"><span class="btn-step-sign">−</span><span class="btn-step-amount num"></span></button>
+                <span class="field-label"><span>Hibiki (響き)</span><span class="field-key">h</span></span>
+                <button class="btn-step btn-step-x10" data-stepper-target="hibiki" data-dir="1" data-mult="10"><span class="btn-step-sign">＋</span><span class="btn-step-amount num"></span></button>
+                <button class="btn-step btn-step-x1" data-stepper-target="hibiki" data-dir="-1" data-mult="1"><span class="btn-step-sign">−</span><span class="btn-step-amount num"></span></button>
+                <div class="field-value-cell">
+                  <input type="number" class="field-number-input num" id="num-hibiki" min="0" max="100000" step="1" value="60000" inputmode="decimal" />
+                  <span class="field-bonus-sub num positive" id="sub-bonus-hibiki"></span>
                 </div>
-                <div class="field-controls">
-                  <div class="field-stepper">
-                    <button class="btn-step" data-stepper-target="hibiki" data-dir="-1">−</button>
-                    <input type="number" class="field-number-input num" id="num-hibiki" min="0" max="100000" step="1" value="60000" style="width: 86px;" />
-                    <button class="btn-step" data-stepper-target="hibiki" data-dir="1">＋</button>
-                  </div>
-                </div>
+                <button class="btn-step btn-step-x1" data-stepper-target="hibiki" data-dir="1" data-mult="1"><span class="btn-step-sign">＋</span><span class="btn-step-amount num"></span></button>
               </div>
-
-              <!-- Overtone -->
               <div class="calc-field-row" data-param="overtone">
-                <div class="field-header">
-                  <span class="field-label">
-                    <span>Overtone (倍音)</span>
-                    <span class="field-key">ot</span>
-                  </span>
-                  <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end;">
-                    <span class="field-value-text num" id="val-display-overtone">1200</span>
-                    <span class="field-bonus-sub num positive" id="sub-bonus-overtone">+0.062</span>
-                  </div>
+                <button class="btn-step btn-step-x10" data-stepper-target="overtone" data-dir="-1" data-mult="10"><span class="btn-step-sign">−</span><span class="btn-step-amount num"></span></button>
+                <span class="field-label"><span>Overtone (倍音)</span><span class="field-key">ot</span></span>
+                <button class="btn-step btn-step-x10" data-stepper-target="overtone" data-dir="1" data-mult="10"><span class="btn-step-sign">＋</span><span class="btn-step-amount num"></span></button>
+                <button class="btn-step btn-step-x1" data-stepper-target="overtone" data-dir="-1" data-mult="1"><span class="btn-step-sign">−</span><span class="btn-step-amount num"></span></button>
+                <div class="field-value-cell">
+                  <input type="number" class="field-number-input num" id="num-overtone" min="0" max="2500" step="1" value="1200" inputmode="decimal" />
+                  <span class="field-bonus-sub num positive" id="sub-bonus-overtone"></span>
                 </div>
-                <div class="field-controls">
-                  <div class="field-stepper">
-                    <button class="btn-step" data-stepper-target="overtone" data-dir="-1">−</button>
-                    <input type="number" class="field-number-input num" id="num-overtone" min="0" max="2500" step="1" value="1200" style="width: 86px;" />
-                    <button class="btn-step" data-stepper-target="overtone" data-dir="1">＋</button>
-                  </div>
-                </div>
+                <button class="btn-step btn-step-x1" data-stepper-target="overtone" data-dir="1" data-mult="1"><span class="btn-step-sign">＋</span><span class="btn-step-amount num"></span></button>
               </div>
             </div>
           </div>

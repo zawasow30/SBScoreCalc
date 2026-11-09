@@ -222,20 +222,37 @@ input {
   background: var(--bg-panel-subtle);
 }
 
-/* Small Step button */
+/* ± step buttons */
 .btn-step {
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-xs);
+  height: 48px;
+  border-radius: var(--radius-sm);
   background: var(--bg-panel-subtle);
   border: 1px solid var(--border-color);
   color: var(--text-secondary);
-  font-size: 14px;
-  font-weight: 600;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 2px;
   transition: all var(--transition);
+}
+
+.btn-step-sign {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.btn-step-amount {
+  font-family: var(--font-7seg);
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+/* 基準×10 のボタンは少し強調 */
+.btn-step-x10 {
+  background: var(--bg-panel-active);
+  color: var(--text-primary);
 }
 
 .btn-step:hover {
@@ -642,14 +659,17 @@ input {
   gap: 16px;
 }
 
+/* 3列 × 2行: [−×10][見出し][＋×10] / [−×1][値・寄与][＋×1] */
 .calc-field-row {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) 72px;
+  grid-template-rows: auto auto;
+  align-items: center;
   gap: 8px;
   background: var(--bg-panel-subtle);
   border: 1px solid var(--border-color-subtle);
   border-radius: var(--radius-sm);
-  padding: 12px 14px;
+  padding: 10px;
   transition: border-color var(--transition);
 }
 
@@ -657,19 +677,16 @@ input {
   border-color: var(--border-color-focus);
 }
 
-.field-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .field-label {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--text-primary);
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
+  min-width: 0;
+  white-space: nowrap;
 }
 
 .field-key {
@@ -681,22 +698,21 @@ input {
   border-radius: 2px;
 }
 
-.field-value-text {
-  font-family: var(--font-7seg);
-  font-style: italic;
-  letter-spacing: 0.05em;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--color-brand);
+.field-value-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
 }
 
 .field-bonus-sub {
   font-family: var(--font-7seg);
   font-style: italic;
   letter-spacing: 0.03em;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
-  margin-top: -1px;
+  line-height: 1.2;
 }
 
 .field-bonus-sub.positive,
@@ -711,32 +727,30 @@ input {
   fill: var(--color-danger);
 }
 
-.field-controls {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-}
-
-.field-stepper {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
+/* 16px 未満だと iOS がフォーカス時にズームする */
 .field-number-input {
-  width: 86px;
+  width: 100%;
+  max-width: 160px;
   background: var(--bg-panel);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xs);
-  padding: 4px 6px;
-  font-size: 13px;
-  text-align: right;
+  padding: 2px 6px;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-brand);
+  text-align: center;
   font-family: var(--font-7seg);
   font-style: italic;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   outline: none;
   transition: border-color var(--transition);
+  -moz-appearance: textfield;
+}
+
+.field-number-input::-webkit-outer-spin-button,
+.field-number-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .field-number-input:focus {
@@ -1411,54 +1425,12 @@ input {
     height: 18px;
   }
 
-  /* 各パラメータ行: スライダーを 1 行、ステッパーを下段に大きく */
   .params-list {
-    gap: 12px;
-  }
-
-  .calc-field-row {
-    padding: 12px;
     gap: 10px;
   }
 
-  .field-label {
-    font-size: 14px;
-  }
-
-  .field-value-text {
-    font-size: 18px;
-  }
-
-  .field-bonus-sub {
-    font-size: 12px;
-  }
-
-  .field-controls {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .field-stepper {
-    gap: 8px;
-  }
-
-  .btn-step {
-    flex: 1;
-    height: 48px;
-    width: auto;
-    font-size: 22px;
-    border-radius: var(--radius-sm);
-  }
-
-  /* 16px 未満だと iOS がフォーカス時にズームする */
-  .field-number-input {
-    flex: 1.4;
-    width: auto !important;
-    min-width: 0;
-    height: 48px;
-    font-size: 18px;
-    text-align: center;
+  .calc-field-row {
+    grid-template-columns: 76px minmax(0, 1fr) 76px;
   }
 
   .text-input {
